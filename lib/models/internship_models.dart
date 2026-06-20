@@ -36,7 +36,7 @@ class InternshipAdapter extends TypeAdapter<InternshipModel> {
       companyName: reader.readString(),
       role: reader.readString(),
       status: reader.readString(),
-      dateApplied: reader.readDateTime(),
+      dateApplied: DateTime.parse(reader.readString()),
       notes: reader.readString(),
     );
   }
@@ -47,7 +47,7 @@ class InternshipAdapter extends TypeAdapter<InternshipModel> {
     writer.write(obj.companyName);
     writer.write(obj.role);
     writer.write(obj.status);
-    writer.write(obj.dateApplied);
+    writer.writeString(obj.dateApplied.toIso8601String());
     writer.write(obj.notes);
   }
 }
