@@ -87,6 +87,88 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+
+      body: Column(
+        children: [
+          // search bar
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Search by company or role',
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+              ),
+              onChanged: (value) {
+                setState(() {
+                  _searchQuery = value;
+                });
+              },
+            ),
+          ),
+
+          // internship list goes here
+          SizedBox(
+            height: 40,
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              children: ['All', 'Applied', 'Interview', 'Offer', 'Rejected']
+                .map((filter) {
+                  final isSelected = _selectedFilter == filter;
+                  return GestureDetector(
+                    onTap: () => setState(() => _selectedFilter = filter),
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 8),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: isSelected
+                        ? const Color(0xFF1B2B4B)
+                        : Colors.grey.shade100,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: isSelected
+                          ? const Color(0xFF1B2B4B)
+                          : Colors.grey.shade300),
+                      ),
+                      child: Text(filter,
+                        style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: isSelected
+                          ? Colors.white
+                          : Colors.grey.shade600)),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            Expanded(
+              child: ListView.builder(
+                itemCount: _filteredInternships.length,
+                itemBuilder: (context, index) {
+                  final internship = _filteredInternships[index];
+                  return ListTile(
+                    title: Text(internship.companyName),
+                    subtitle: Text(internship.role),
+                    trailing: Text(internship.status,
+                      style: TextStyle(
+                        color: _statusColor(internship.status),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  );
+                },
+              )
+            ),
+        ],
+      ),
     );
   }
 }
