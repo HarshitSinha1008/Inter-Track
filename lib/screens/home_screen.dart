@@ -116,7 +116,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
 
-          // internship list goes here
+          // filter list goes here
           SizedBox(
             height: 40,
             child: ListView(
@@ -156,25 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
             const SizedBox(height: 12),
 
-            Expanded(
-              child: ListView.builder(
-                itemCount: _filteredInternships.length,
-                itemBuilder: (context, index) {
-                  final internship = _filteredInternships[index];
-                  return ListTile(
-                    title: Text(internship.companyName),
-                    subtitle: Text(internship.role),
-                    trailing: Text(internship.status,
-                      style: TextStyle(
-                        color: _statusColor(internship.status),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  );
-                },
-              )
-            ),
-
+            // internship list
             Expanded(
               child: _filteredInternships.isEmpty
                   ? Center(
@@ -255,6 +237,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
 
+      // + button
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xFF1B2B4B),
         onPressed: () async {
