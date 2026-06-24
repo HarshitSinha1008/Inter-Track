@@ -78,6 +78,31 @@ class _AddEditScreenState extends State<AddEditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: AppBar(
+        // back button
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: Text(widget.internship != null ? 'Edit Internship' : 'Add Internship'),
+        actions: [
+          // save button
+          TextButton(
+            onPressed: _isSaving ? null : _save, 
+            child: _isSaving
+              ? const CircularProgressIndicator(strokeWidth: 2)
+              : const Text('SAVE',
+                  style: TextStyle(
+                    color: Color(0xFF1B2B4B),
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold
+                ),
+              ),
+          )
+          
+        ],
+      ),
+    );
   }
 }
