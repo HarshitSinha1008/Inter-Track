@@ -19,6 +19,12 @@ class _AddEditScreenState extends State<AddEditScreen> {
   final _notesController = TextEditingController();
   DateTime _selectedDate = DateTime.now();
 
+  String _monthName(int month) {
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  return months[month - 1];
+}
+
   @override
   void initState() {
     super.initState();
@@ -102,6 +108,156 @@ class _AddEditScreenState extends State<AddEditScreen> {
           )
           
         ],
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: 16),
+        
+              const Text(
+                'Company Name',
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Colors.grey,
+                ),
+              ),
+        
+              const SizedBox(height: 8),
+        
+              // company name field
+              TextField(
+                controller: _companyController,
+                decoration: const InputDecoration(
+                  labelText: 'Company Name',
+                ),
+              ),
+        
+              const SizedBox(height: 16),
+        
+              const Text(
+                'Role',
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Colors.grey,
+                ),
+              ),
+        
+              const SizedBox(height: 8),
+        
+              // role field
+              TextField(
+                controller: _roleController,
+                decoration: const InputDecoration(
+                  labelText: 'Role',
+                ),
+              ),
+        
+              const SizedBox(height: 16),
+        
+              const Text(
+                'Status',
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Colors.grey,
+                ),
+              ),
+        
+              const SizedBox(height: 8),
+        
+              // status field
+              DropdownButtonFormField<String>(
+                onChanged: (val) => setState(() => _selectedStatus = val!),
+                value: _selectedStatus,
+                items: const [
+                  DropdownMenuItem<String>(
+                    value: 'Applied',
+                    child: Text('Applied'),
+                  ),
+                  DropdownMenuItem<String>(
+                    value: 'Interview',
+                    child: Text('Interview'),
+                  ),
+                  DropdownMenuItem<String>(
+                    value: 'Offer',
+                    child: Text('Offer'),
+                  ),
+                  DropdownMenuItem<String>(
+                    value: 'Rejected',
+                    child: Text('Rejected'),
+                  ),
+                ],
+              ),
+        
+              const SizedBox(height: 16),
+        
+              const Text(
+                'Date Applied',
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Colors.grey,
+                ),
+              ),
+        
+              const SizedBox(height: 8),
+        
+              // date applied field
+              GestureDetector(
+                onTap: () async {
+                  final picked = await showDatePicker(
+                    context: context,
+                    initialDate: _selectedDate,
+                    firstDate: DateTime(2020),
+                    lastDate: DateTime(2030)
+                  );
+                  if (picked != null) setState(() => _selectedDate = picked);
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey.shade400),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.calendar_today, size: 18, color: Colors.grey),
+                      const SizedBox(width: 10),
+                      Text(
+                        '${_selectedDate.day} ${_monthName(_selectedDate.month)} ${_selectedDate.year}',
+                        style: const TextStyle(
+                          fontSize: 14),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+        
+              const SizedBox(height: 16),
+        
+              const Text(
+                'Notes',
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Colors.grey,
+                ),
+              ),
+        
+              const SizedBox(height: 8),
+        
+              // notes field
+              TextField(
+                controller: _notesController,
+                maxLines: 5,
+                maxLength: 500,
+                decoration: const InputDecoration(
+                  labelText: 'Notes',
+                ),
+              ),  
+            ]
+          ),
+        ),
       ),
     );
   }
