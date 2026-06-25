@@ -43,11 +43,11 @@ class InternshipAdapter extends TypeAdapter<InternshipModel> {
 
   @override
   void write(BinaryWriter writer, InternshipModel obj) {
-    writer.write(obj.id);
-    writer.write(obj.companyName);
-    writer.write(obj.role);
-    writer.write(obj.status);
+    writer.writeString(obj.id);
+    writer.writeString(obj.companyName);
+    writer.writeString(obj.role);
+    writer.writeString(obj.status);
     writer.writeString(obj.dateApplied.toIso8601String());
-    writer.write(obj.notes);
+    writer.writeString(obj.notes);
   }
 }

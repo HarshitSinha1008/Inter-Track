@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:interntrack/models/internship_models.dart';
+import 'package:interntrack/screens/add_edit_screen.dart';
 import 'package:interntrack/services/internship_service.dart';
 
 class DetailScreen extends StatefulWidget {
@@ -12,6 +13,13 @@ class DetailScreen extends StatefulWidget {
 }
 
 class _DetailScreenState extends State<DetailScreen> {
+  late InternshipModel _internship;
+
+  @override
+  void initState() {
+    super.initState();
+    _internship = widget.internship;
+  }
 
   String _monthName(int month) {
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
@@ -54,7 +62,7 @@ class _DetailScreenState extends State<DetailScreen> {
     );
 
     if (confirm == true) {
-      await InternshipService().deleteInternship(widget.internship.id);
+      await InternshipService().deleteInternship(_internship.id);
       if (mounted) Navigator.pop(context, true);
     }
   }
@@ -75,28 +83,28 @@ class _DetailScreenState extends State<DetailScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // company name
-            Center(child: Text(widget.internship.companyName, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
+            Center(child: Text(_internship.companyName, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
             const SizedBox(height: 8),
             // role
-            Center(child: Text(widget.internship.role, style: const TextStyle(fontSize: 20))),
+            Center(child: Text(_internship.role, style: const TextStyle(fontSize: 20))),
             const SizedBox(height: 16),
-            // status and date applied
-            Center(
-              child: Row(
+
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
                     padding: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: _statusColor(widget.internship.status).withValues(alpha: 0.1),
+                      color: _statusColor(_internship.status).withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Text(widget.internship.status, style: TextStyle(
-                      color: _statusColor(widget.internship.status),
+                    child: Text(_internship.status, style: TextStyle(
+                      color: _statusColor(_internship.status),
                       fontWeight: FontWeight.bold,)),
                   ),
                 ],
               ),
-            ), 
+
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -131,6 +139,41 @@ class _DetailScreenState extends State<DetailScreen> {
                 ],
               ),
             ),
+            const Spacer(),
+            ElevatedButton(
+              onPressed: () async {
+                final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => AddEditScreen(
+                      internship: _internship)),
+                );
+                if (result == true && mounted) {
+                  setState(() {
+                    _internship = InternshipService()
+                        .getAllInternships()
+                        .firstWhere((i) => i.id == _internship.id);
+                  });
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF1B2B4B),
+                foregroundColor: Colors.white,
+                minimumSize: const Size(double.infinity, 50),
+              ),
+              child: const Text('EDIT'),
+            ),
+            const SizedBox(height: 12),
+            OutlinedButton(
+              onPressed: _delete,
+              style: OutlinedButton.styleFrom(
+                foregroundColor: Colors.red,
+                side: const BorderSide(color: Colors.red),
+                minimumSize: const Size(double.infinity, 50),
+              ),
+              child: const Text('DELETE'),
+            ),
+            const SizedBox(height: 16),
           ],
         ),
       ),

@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisSize: MainAxisSize.min,  // ← add this
           children: [
             // logo
-            Image.asset('assets/images/logo.png', height: 30),
+            Image.asset('assets/logo.png', height: 30),
             const SizedBox(width: 8),
             // app name
             const Text('Intern',
@@ -185,6 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 builder: (_) => DetailScreen(internship: internship),
                               ),
                             );
+                            if (result == true) _loadInternships(); 
                           } ,
                           child: Container(
                             margin: const EdgeInsets.only(bottom: 12),
