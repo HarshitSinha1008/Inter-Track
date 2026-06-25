@@ -81,19 +81,21 @@ class _DetailScreenState extends State<DetailScreen> {
             Center(child: Text(widget.internship.role, style: const TextStyle(fontSize: 20))),
             const SizedBox(height: 16),
             // status and date applied
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: _statusColor(widget.internship.status).withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(8),
+            Center(
+              child: Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: _statusColor(widget.internship.status).withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(widget.internship.status, style: TextStyle(
+                      color: _statusColor(widget.internship.status),
+                      fontWeight: FontWeight.bold,)),
                   ),
-                  child: Text(widget.internship.status, style: TextStyle(
-                    color: _statusColor(widget.internship.status),
-                    fontWeight: FontWeight.bold,)),
-                ),
-              ],
+                ],
+              ),
             ), 
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -103,9 +105,35 @@ class _DetailScreenState extends State<DetailScreen> {
                 Text('Date Applied: ${widget.internship.dateApplied.day} ${_monthName(widget.internship.dateApplied.month)} ${widget.internship.dateApplied.year}', style: TextStyle(color: Colors.grey),),
               ],
             ),
+            const SizedBox(height: 24),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade50,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.grey.shade200),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('Notes', 
+                    style: TextStyle(
+                      fontWeight: FontWeight.w600)),
+                  const SizedBox(height: 8),
+                  Text(
+                    widget.internship.notes.isEmpty
+                      ? 'No notes'
+                      : widget.internship.notes,
+                    style: TextStyle(
+                      color: Colors.grey.shade600
+                    )),
+                ],
+              ),
+            ),
           ],
         ),
-      ),     
+      ),
     );
   }
 }

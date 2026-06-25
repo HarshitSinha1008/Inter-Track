@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:interntrack/services/internship_service.dart';
 import '../models/internship_models.dart';
 import 'add_edit_screen.dart';
+import 'detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -176,59 +177,69 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemCount: _filteredInternships.length,
                       itemBuilder: (context, index) {
                         final internship = _filteredInternships[index];
-                        return Container(
-                          margin: const EdgeInsets.only(bottom: 12),
-                          padding: const EdgeInsets.all(16),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(12),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.05),
-                                blurRadius: 8,
-                                offset: const Offset(0, 2)),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(internship.companyName,
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold)),
-                                    const SizedBox(height: 4),
-                                    Text(internship.role,
-                                      style: TextStyle(
-                                        fontSize: 13,
-                                        color: Colors.grey.shade600)),
-                                    const SizedBox(height: 6),
-                                    Text(
-                                      'Applied: ${internship.dateApplied.day} ${_monthName(internship.dateApplied.month)}',
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.grey.shade400)),
-                                  ],
-                                ),
+                        return GestureDetector(
+                          onTap: () async {
+                            final result = await Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => DetailScreen(internship: internship),
                               ),
-                              // Status badge
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 4),
-                                decoration: BoxDecoration(
-                                  color: _statusColor(internship.status)
-                                      .withValues(alpha: 0.1),
-                                  borderRadius: BorderRadius.circular(6),
+                            );
+                          } ,
+                          child: Container(
+                            margin: const EdgeInsets.only(bottom: 12),
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.05),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 2)),
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(internship.companyName,
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold)),
+                                      const SizedBox(height: 4),
+                                      Text(internship.role,
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          color: Colors.grey.shade600)),
+                                      const SizedBox(height: 6),
+                                      Text(
+                                        'Applied: ${internship.dateApplied.day} ${_monthName(internship.dateApplied.month)}',
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.grey.shade400)),
+                                    ],
+                                  ),
                                 ),
-                                child: Text(internship.status.toUpperCase(),
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.bold,
-                                    color: _statusColor(internship.status))),
-                              ),
-                            ],
+                                // Status badge
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 10, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: _statusColor(internship.status)
+                                        .withValues(alpha: 0.1),
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: Text(internship.status.toUpperCase(),
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.bold,
+                                      color: _statusColor(internship.status))),
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       },
