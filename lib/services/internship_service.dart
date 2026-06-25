@@ -20,7 +20,7 @@ Future<void> updateInternship(InternshipModel internship) async {
   return box.put(internship.id, internship);
 }
 
-Future<void> deletePost(String id) async {
+Future<void> deleteInternship(String id) async {
     final box = Hive.box<InternshipModel>('internships');
     await box.delete(id);
   }
